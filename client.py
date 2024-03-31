@@ -39,11 +39,11 @@ def receive_packet(sock, cwnd, ss_thresh):
     data, _ = sock.recvfrom(1024)
     packet = Packet().decode(data)
     flags = ""
-    if packet.isAck():
+    if packet.isAck:
         flags += " ACK"
-    if packet.isSyn():
+    if packet.isSyn:
         flags += " SYN"
-    if packet.isFin():
+    if packet.isFin:
         flags += " FIN"
     if packet.connId == 0:  # Unknown connection ID, packet dropped
         print(f"DROP {packet.seqNum} {packet.ackNum} {packet.connId}{flags}")
