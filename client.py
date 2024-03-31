@@ -1,12 +1,10 @@
-#!/usr/bin/env python3
-
 import argparse
 import os
-import socket
 import sys
 import time
 
 from confundo.packet import Packet
+from confundo import socket
 
 parser = argparse.ArgumentParser("Parser")
 parser.add_argument("host", help="Set Hostname")
@@ -113,6 +111,10 @@ def start():
     except RuntimeError as e:
         sys.stderr.write(f"ERROR: {e}\n")
         sys.exit(1)
+
+if __name__ == '__main__':
+    start()
+
 
 if __name__ == '__main__':
     start()
