@@ -247,3 +247,8 @@ def expectFinAck(self):
             break
         if time.time() - startTime > GLOBAL_TIMEOUT:
             return  # Assume server has closed the connection
+
+def sendSynPacket(self):
+    synPkt = Packet(seqNum=self.seqNum, ackNum=0, connId=self.connId, isSyn=True)
+    self._send(synPkt)
+
