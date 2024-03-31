@@ -225,4 +225,25 @@ class Socket:
                 self.state = State.ERROR
                 raise RuntimeError("timeout")
         return len(data)
+def expectSynAck(self):
+    startTime = time.time()
+    while True:
+        pkt = self._recv()
+        if pkt and pkt.isAck and pkt.ackNum == self.seqNum:
+            self.base = self.seqNum
+            self.state = State.OPEN
+            break
+        if time.time() - startTime > GLOBAL_TIMEOUT:
+            self.state = State.ERROR
+            raise RuntimeError("Timeout waiting for SYN-ACK")
 
+def expectFinAck(self):
+    startTime = time.time()
+    while True:
+        pkt = self._recv()
+        if pkt and pkt.isAck and pkt.ackNum == self.seqNum:
+            self.base = self.seqNum
+            self.state = State.CLOSED
+            break
+        if time.time() - startTime > GLOBAL_TIMEOUT:
+            return  # Assume server has closed the connection
