@@ -48,7 +48,7 @@ def receive_packet(sock, cwnd, ss_thresh):
     if packet.connId == 0:  # Unknown connection ID, packet dropped
         print(f"DROP {packet.seqNum} {packet.ackNum} {packet.connId}{flags}")
     else:
-        print(f"RECV {packet.seqNum} {packet.ackNum} {packet.connId} {cwnd} {ss_thresh}{flags}")
+        print(f"RECV {packet.seqNum} {packet.ackNum} {packet.connId} -1 -1{flags}")
     return packet
 
 def start():
@@ -58,14 +58,14 @@ def start():
         sock.settimeout(TIMEOUT)
 
         # Initialize sequence number to required number
-        seq_num = 10000
+        seq_num = 50000
 
         # Initialize congestion control variables
         cwnd = CWND_INITIAL
         ss_thresh = SS_THRESH_INITIAL
 
         # Step 1: Send SYN packet
-        syn_packet = Packet(seqNum=seq_num, ackNum=0, connId=0, flags=Packet.FLAG_SYN)
+        syn_packet = Packet(seqNum=seq_num, ackNum=0, connId=261, flags=Packet.FLAG_SYN)
         send_packet(sock, syn_packet, cwnd, ss_thresh)
 
         # Step 2: Receive SYN | ACK response
@@ -116,4 +116,3 @@ def start():
 
 if __name__ == '__main__':
     start()
-
